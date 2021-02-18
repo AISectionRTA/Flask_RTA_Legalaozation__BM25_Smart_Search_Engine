@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" type="text/css" href="/static/style.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <div class="image-wrapper">
+        <a href="https://www.smartdubai.ae/ar/home-page"><img
+                src="https://www.rta.ae/wps/contenthandler/dav/fs-type1/themes/RTA.Responsive.Theme/rta-assets/common/img/latest-img/government-dubai.png"
+                align="left" class="scale-image"></a>
+    </div>
+    <div class="image-wrapper">
+        <a href="https://www.rta.ae/wps/portal/rta/ae/home" target="_blank"><img
+                src="https://www.rta.ae/wps/contenthandler/dav/fs-type1/themes/RTA.Responsive.Theme/rta-assets/common/img/latest-img/RTA.png"
+                align="right" class="scale-image"></a>
+    </div>
+</head>
+<body>
+<div>
+    <h1></h1>
+</div>
+<h1> تفعيل <a href="https://www.rta.ae/wps/portal/rta/ae/home/open-data">تشريعات الهيئة</a> داخل المتحدث الآلي الداخلي
+</h1>
+<div>
+    <div id="chatbox">
+        <p class="botText"><span>مرحبا انا أحمد مساعدك الافتراضي. يمكنك ان تسألني عن تشريعات الهيئة</span></p>
+    </div>
+    <div id="userInput">
+        <input id="textInput" type="text" name="msg" placeholder="الاستفسار">
+        <input id="buttonInput" type="submit" value="اسأل أحمد">
+    </div>
+    <script>
+        function getBotResponse() {
+          var rawText = $("#textInput").val();
+          var userHtml = '<p class="userText"><span>' + rawText + '</span></p>';
+          $("#textInput").val("");
+          $("#chatbox").append(userHtml);
+          document.getElementById('userInput').scrollIntoView({block: 'start', behavior: 'smooth'});
+          $.get("/get", { msg: rawText }).done(function(data) {
+            var botHtml = '<p class="botText"><span>' + data + '</span></p>';
+            $("#chatbox").append(botHtml);
+            document.getElementById('userInput').scrollIntoView({block: 'start', behavior: 'smooth'});
+          });
+        }
+        $("#textInput").keypress(function(e) {
+            if ((e.which == 13) && document.getElementById("textInput").value != "" ){
+                getBotResponse();
+            }
+        });
+        $("#buttonInput").click(function() {
+            if (document.getElementById("textInput").value != "") {
+                getBotResponse();
+            }
+        })
+
+
+
+
+    </script>
+</div>
+</body>
+</html>
